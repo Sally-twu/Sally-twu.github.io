@@ -121,7 +121,7 @@
 				})
               }
 
-				d3.csv("./data.csv", function(error, vCsvData) {
+				/*d3.csv("./data.csv", function(error, vCsvData) {
 					if (error) throw error;
 					csvData=vCsvData;
 					//console.log(csvData)
@@ -144,11 +144,11 @@
 							treemapContainer.innerHTML = node.innerHTML
 						}) 
 					})			
-				});
-
- 			/*document.getElementById('dropfile').addEventListener('dragover',function(evt){
-					evt.preventDefault()
-				})
+				});*/
+			window.onload=function(){
+ 				document.getElementById('dropfile').addEventListener('dragover',function(evt){
+						evt.preventDefault()
+					})
 
 				document.getElementById('dropfile').addEventListener('drop', function(evt){
 					evt.preventDefault()
@@ -180,8 +180,9 @@
 
 						fr.readAsText(csvFile)
 					}
-				})*/
-			})
+				})
+			}
+		})
 		</script>
 	</body>
 	
