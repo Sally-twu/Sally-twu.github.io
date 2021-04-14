@@ -41,12 +41,15 @@ function dataLoader(text,cb) {
 		//獲取html中的下拉式選單
 		//只要使用者更改選單欄位，就會用不同的欄位做為分層
         var objectKeys = document.getElementById("ObjectKeys")
-		for(var k in csvData[0]){
-			objectKeys.add(new Option(k, k))
-		}
+        window.onload=function(){
+			for(var k in csvData[0]){
+				objectKeys.add(new Option(k, k))
+			}
 	
 		cb()
+		}
     })
+
 }
 
 function dataClassifier(key, callback) {
