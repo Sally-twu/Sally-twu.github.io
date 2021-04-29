@@ -3,11 +3,48 @@
 <head>
     <meta charset="utf-8">
     <title>Lab</title>
-    <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
+    <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5
+    <c.0 -->
+    <style type="text/css">
+    	
+    	div.bar {
+    		border: 1px black solid;
+    		padding: 10px;
+    		margin: 5px 10px 5px 10px;
+    		display: inline-block;
+    		width: 20px;
+    		height: 75px;
+    		background-color: cyan;
+    	}
+
+    	body {
+    		border: 1px red solid;
+    		padding: 20px;
+    	}
+
+    </style>
 </head>
 <body>
+
     <script type="text/javascript">
-      // Your beautiful D3 code will go here
+
+      d3.csv('data.csv',function(data){
+            
+            d3.select("body")
+              .append("div")
+              .attr("class","bar")
+              .style("height",data["頻率"] + "px");
+           /* d = data["頻率"] + "px";
+            d3.select('#painter') //選擇svg畫布
+            .append('circle') //加入一個圓
+            .attr('fill', '#afafaf') //設定灰色填滿
+            .attr('r', function(d){
+                return d;
+            }) //半徑為50
+            .attr('cx', 100) 
+            .attr('cy', 100) //圓心在(100, 100)*/
+          });
+
     </script>
 </body>
 </html>
