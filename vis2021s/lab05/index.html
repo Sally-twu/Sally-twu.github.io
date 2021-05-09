@@ -28,21 +28,12 @@
 
     <script type="text/javascript">
 
-      d3.csv('data.csv',function(data){
-            
+      d3.csv('data01.csv',function(data){
+            console.log(data)
             d3.select("body")
               .append("div")
               .attr("class","bar")
               .style("height",data["頻率"] + "px");
-           /* d = data["頻率"] + "px";
-            d3.select('#painter') //選擇svg畫布
-            .append('circle') //加入一個圓
-            .attr('fill', '#afafaf') //設定灰色填滿
-            .attr('r', function(d){
-                return d;
-            }) //半徑為50
-            .attr('cx', 100) 
-            .attr('cy', 100) //圓心在(100, 100)*/
           });
 
     </script>
