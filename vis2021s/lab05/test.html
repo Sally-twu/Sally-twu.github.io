@@ -3,19 +3,20 @@
 <head>
     <meta charset="utf-8">
     <title>Lab</title>
-    <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> <!-- v6.5
     <c.0 -->
     <style type="text/css">
     	
     	div.bar {
     		border: 1px black solid;
-    		padding: 10px;
-    		margin: 5px 10px 5px 10px;
+    		margin: 1px 2px 1px 2px;
     		display: inline-block;
-    		width: 20px;
+    		width: 18px;
     		height: 75px;
     		background-color: cyan;
-    	}
+    		vertical-align: bottom;
+    		text-align: center;
+		}
 
     	body {
     		border: 1px red solid;
@@ -28,14 +29,22 @@
 
     <script type="text/javascript">
 
-      d3.csv('data.csv',function(data){
+      d3.csv("data05.csv",function(data){
             console.log(data)
             d3.select("body")
+              .selectAll("div")
+              .data(data)
+              .enter()
               .append("div")
               .attr("class","bar")
-              .style("height",data["頻率"] + "px");
+              .style("height",function(d){
+              	return d["頻率"]*5+"px";
+              })
+              .text(function(d){
+              	return d["頻率"];
+              });
           });
-
+//參考劉聰池
     </script>
 </body>
 </html>
