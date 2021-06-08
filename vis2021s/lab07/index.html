@@ -1,13 +1,162 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
-<head>
-    <meta charset="utf-8">
-    <title>Lab</title>
-    <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
-</head>
-<body>
-    <script type="text/javascript">
-      // Your beautiful D3 code will go here
-    </script>
-  </html>
-  
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    </head>
+    <body>
+        <h1>
+             lab07 漢字變形 Path Transitions
+        </h1>
+        <div id="svg-word"></div>
+        <div id="exhibition-area1">
+            展示區 (姓名)
+        <hr>
+        <img width="256" src="./Tu01.svg">
+        <img width="256" src="./Tu02.svg">
+        <img width="256" src="./Yu.svg">
+        <img width="256" src="./Shan.svg">
+        <hr>
+        <object data="./Tu01.svg" id="Tu01" width="256" type="image/svg+xml"></object>
+        <object data="./Tu02.svg" id="Tu01" width="256" type="image/svg+xml"></object>
+        <object data="./Yu.svg" id="Yu" width="256" type="image/svg+xml"></object>
+        <object data="./Shan.svg" id="Shan" width="256" type="image/svg+xml"></object>
+        <hr>
+        </div>
+        <div id ="exhibition-area2">
+        </div>
+        <script type="text/javascript">
+            d3.select("#exhibition-area1").selectAll("svg").remove()
+
+    var svg1 = d3.select("#exhibition-area1")
+      .append("svg")
+      .attr("width", 300)
+      .attr("height", 350)
+
+    var svg2 = d3.select("#exhibition-area1")
+      .append("svg")
+      .attr("width", 300)
+      .attr("height", 350)
+
+    var svg3 = d3.select("#exhibition-area1")
+      .append("svg")
+      .attr("width", 300)
+      .attr("height", 350)
+
+    var svg4 = d3.select("#exhibition-area1")
+      .append("svg")
+      .attr("width", 300)
+      .attr("height", 350)
+
+
+
+    nameCircleTransition(svg1, Tu01)
+    nameCircleTransition(svg2, Tu02)
+    nameCircleTransition(svg3, Yu)
+    nameCircleTransition(svg4, Shan)
+    var d0 =" M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 z";
+    function nameCircleTransition(svg, namePath) {
+      svg.append("path")
+        .attr("d", d0)
+        .transition()
+        .duration(3500)
+        .delay(300)
+        .on("start", function loop() {
+          d3.active(this)
+            .attrTween("d", pathTween(namePath, 3))
+            .transition()
+            .duration(5000)
+            .delay(200)
+            .attrTween("d", pathTween(d0, 3))
+            .transition()
+            .on("start", loop);
+        })
+    }
+
+
+    function pathTween(d1, precision) {
+      return function () {
+        var path0 = this,
+          path1 = path0.cloneNode(),
+          n0 = path0.getTotalLength(),
+          n1 = (path1.setAttribute("d", d1), path1).getTotalLength();
+
+        // Uniform sampling of distance based on specified precision.
+        var distances = [0],
+          i = 0,
+          dt = precision / Math.max(n0, n1);
+        while ((i += dt) < 1) distances.push(i);
+        distances.push(1);
+
+        // Compute point-interpolators at each distance.
+        var points = distances.map(function (t) {
+          var p0 = path0.getPointAtLength(t * n0),
+            p1 = path1.getPointAtLength(t * n1);
+          return d3.interpolate([p0.x, p0.y], [p1.x, p1.y]);
+        });
+
+        return function (t) {
+          return t < 1 ? "M" + points.map(function (p) {
+            return p(t);
+          }).join("L") : d1;
+        };
+      };
+    }
+
+    var svgPath = "";
+    var wordNum = 0;
+    var pathList = [];
+    document.getElementById('dropfile').addEventListener('dragover', (evt) => {
+      evt.preventDefault()
+    })
+
+    document.getElementById('dropfile').addEventListener('drop', (evt) => {
+      evt.preventDefault()
+
+      const {
+        files
+      } = evt.dataTransfer
+
+
+      const svgFile = evt.dataTransfer.files
+      const svgFileName = files[0].name
+      console.log(svgFile[0])
+
+      var fileReader = new FileReader()
+      fileReader.readAsText(svgFile[0]);
+      wordNum += 1;
+
+      if (wordNum <= 3) {
+        fileReader.onload = function (e) {
+
+          d3.select("#svg-word")
+            .append("div")
+            .attr("id", "svg-path" + wordNum)
+            .html(fileReader.result)
+
+          callBack()
+        }
+      }
+
+      function callBack() {
+        var svg = d3.select("#exhibition-area2")
+          .append("svg")
+          .attr("width", 300)
+          .attr("height", 400)
+
+        d3.select("#svg-path" + wordNum)
+          .select("svg")
+          .select("path")
+          .attr("class", "svg-path")
+          .attr("id", "path" + wordNum)
+
+        svgPath = d3.select("#path" + wordNum).attr("d");
+
+        nameCircleTransition(svg, svgPath)
+      }
+
+    })
+        </script>
+    </body>
+</html>
